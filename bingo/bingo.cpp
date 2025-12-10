@@ -531,7 +531,7 @@ int main() {
     
     sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
-        inet_pton(AF_INET, "0.0.0.0", &server_addr.sin_addr);
+    inet_pton(AF_INET, "0.0.0.0", &server_addr.sin_addr);
 
     int port = 5000;
     const char* port_env = getenv("PORT");

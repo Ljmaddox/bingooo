@@ -531,8 +531,18 @@ int main() {
     
     sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
-    inet_pton(AF_INET, "0.0.0.0", &server_addr.sin_addr);
-    server_addr.sin_port = htons(5000);
+        inet_pton(AF_INET, "0.0.0.0", &server_addr.sin_addr);
+
+    int port = 5000;
+    const char* port_env = getenv("PORT");
+    if (port_env) {
+        try {
+            int p = stoi(port_env);
+            if (p > 0 && p < 65536) port = p;
+        } catch(...) { /* keep default */ }
+    }
+    server_addr.sin_port = htons(port);
+
     
     if (bind(server_socket, (sockaddr*)&server_addr, sizeof(server_addr)) == SOCKET_ERROR) {
         cerr << "Bind failed" << endl;
